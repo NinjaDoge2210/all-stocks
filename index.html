@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>SafeStock Chart</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #0f0f0f;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h2 id="stockName">Loading...</h2>
+  <div class="tradingview-widget-container">
+    <div id="tradingview_widget"></div>
+  </div>
+
+  <script type="text/javascript">
+    const params = new URLSearchParams(window.location.search);
+    const symbol = params.get("symbol") || "AAPL"; // default
+
+    document.getElementById("stockName").innerText = `Stock: ${symbol}`;
+
+    const script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src = "https://s3.tradingview.com/external-embedding/embed-widget-symbol-overview.js";
+    script.async = true;
+    script.innerHTML = JSON.stringify({
+      symbols: [[symbol, `${symbol}|1D`]],
+      chartOnly: false,
+      width: "100%",
+      height: "100%",
+      locale: "en",
+      colorTheme: "dark",
+      isTransparent: false,
+      autosize: true,
+      showVolume: true,
+      scalePosition: "right",
+      scaleMode: "Normal",
+      fontFamily: "-apple-system, BlinkMacSystemFont, Trebuchet MS, Roboto, Ubuntu, sans-serif",
+      fontSize: "12",
+      lineWidth: 2,
+      container_id: "tradingview_widget"
+    });
+    document.querySelector(".tradingview-widget-container").appendChild(script);
+  </script>
+</body>
+</html>
